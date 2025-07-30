@@ -2,6 +2,10 @@
 // Copyright (c) 2025 Junaid Atari, and contributors
 // Repository: https://github.com/blacksmoke26/ims-frontend
 
-.color-red {
-  color: #1f6180;
-}
+// types
+import type {AuthState} from './reducers.types';
+
+/** Redux store initial state */
+export default {
+  authenticated: false,
+} as AuthState;

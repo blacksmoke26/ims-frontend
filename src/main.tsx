@@ -5,11 +5,12 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 
-// components
-import App from './App.tsx';
-
 // styles
-import './styles/index.scss';
+import '~styles/all.min.css';
+import '~styles/index.scss';
+
+// components
+import App from '~/App.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

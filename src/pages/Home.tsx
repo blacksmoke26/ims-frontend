@@ -2,6 +2,12 @@
 // Copyright (c) 2025 Junaid Atari, and contributors
 // Repository: https://github.com/blacksmoke26/ims-frontend
 
-.color-red {
-  color: #1f6180;
-}
+const Home = () => {
+  return (
+    <div className="text-center">
+      <h1>Home page</h1>
+    </div>
+  );
+};
+
+export default Home;

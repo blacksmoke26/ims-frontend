@@ -6,15 +6,15 @@
 import PageContent from '~components/layout/PageContent';
 import NavigationBar from '~components/layout/NavigationBar';
 
-const HomePage = () => {
+const RegisterPage = () => {
   return (
     <>
       <NavigationBar/>
       <PageContent>
-        <h1>Home page</h1>
+        <h1>Register page</h1>
       </PageContent>
     </>
   );
 };
 
-export default HomePage;
+export default RegisterPage;

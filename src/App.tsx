@@ -12,15 +12,18 @@ import ForgotPasswordPage from '~pages/identity/forgot-password';
 
 // utils
 import {auth, identity} from '~/endpoints.ts';
+import ProtectedRoute from '~components/generic/ProtectedRoute';
+import PublicRoute from '~components/generic/PublicRoute';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route index element={<HomePage/>}/>
-        <Route path={auth.login} element={<LoginPage/>}/>
-        <Route path={identity.register} element={<RegisterPage/>}/>
-        <Route path={identity.forgotPassword} element={<ForgotPasswordPage/>}/>
+        <Route path={auth.login} element={<PublicRoute><LoginPage/></PublicRoute>}/>
+        <Route path={identity.register} element={<PublicRoute><RegisterPage/></PublicRoute>}/>
+        <Route path={identity.forgotPassword} element={<PublicRoute><ForgotPasswordPage/></PublicRoute>}/>
+        <Route path="/user/account" element={<ProtectedRoute><p>Protected</p></ProtectedRoute>}/>
       </Routes>
     </BrowserRouter>
   );

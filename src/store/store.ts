@@ -19,10 +19,10 @@ const rootReducer = combineSlices({
 });
 
 const persistedReducer = persistReducer({
-  key: 'dow-state',
+  key: 'ims-csharp',
   version: 1,
   storage,
-  whitelist: ['config'],
+  whitelist: ['auth'],
 }, rootReducer);
 
 export const store = configureStore({

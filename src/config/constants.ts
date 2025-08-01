@@ -2,9 +2,5 @@
 // Copyright (c) 2025 Junaid Atari, and contributors
 // Repository: https://github.com/blacksmoke26/ims-frontend
 
-import type {LoginResponse} from '~types/api.types.ts';
 
-export interface AuthState {
-  authenticated: boolean;
-  user: LoginResponse['user'] | null;
-}
+export const AUTH_TOKEN_KEY = '$AUTH_TOKEN$';

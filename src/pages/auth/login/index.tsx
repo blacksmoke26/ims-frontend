@@ -4,30 +4,30 @@
 
 import {useFormik} from 'formik';
 import {NavLink, useNavigate} from 'react-router';
-import {Button, Form} from 'react-bootstrap';
+import {Button, Form, Card} from 'react-bootstrap';
 
 // clients
-import ApiClient from '~/clients/ApiClient.ts';
+import ApiClient from '~/clients/ApiClient';
 
 // layout
 import PageContent from '~components/layout/PageContent';
 import NavigationBar from '~components/layout/NavigationBar';
 
 // utils
-import {identity, main} from '~/endpoints.ts';
-import {validationSchema} from './validation-schema.tsx';
+import {identity, main} from '~/endpoints';
+import {validationSchema} from './validation-schema';
 
 // redux
 import {useAppDispatch} from '~store/hooks';
-import {setLogin} from '~store/slices/auth/reducers.ts';
+import {setLogin} from '~store/slices/auth/reducers';
 
 // types
-import type {LoginPayload, LoginResponse} from '~types/api.types.ts';
+import type {LoginPayload, LoginResponse} from '~types/api.types';
 
 const LoginPage = () => {
-  const dispatch = useAppDispatch();
-  const apiClient = new ApiClient();
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
 
   const formik = useFormik<LoginPayload>({
     initialValues: {
@@ -37,7 +37,9 @@ const LoginPage = () => {
     validationSchema,
     async onSubmit(values) {
       try {
-        const response = await apiClient.post<LoginResponse, LoginPayload>('/auth/login', values);
+        const response = await ApiClient.getInstance()
+          .post<LoginResponse, LoginPayload>('/auth/login', values);
+
         dispatch((setLogin(response)));
         navigate(main.index);
       } catch (e) {
@@ -51,8 +53,8 @@ const LoginPage = () => {
       <NavigationBar/>
       <PageContent centerAll={true}>
         <Form className="login-form" onSubmit={formik.handleSubmit}>
-          <div className="card mb-0">
-            <div className="card-body">
+          <Card className="mb-0">
+            <Card.Body>
               <div className="text-center mb-3">
                 <div className="d-inline-flex align-items-center justify-content-center mb-4 mt-2">
                   <img src="https://themes.kopyov.com/limitless/demo/template/assets/images/logo_icon.svg"
@@ -61,6 +63,7 @@ const LoginPage = () => {
                 <h5 className="mb-0">Login to your account</h5>
                 <span className="d-block text-muted">Enter your credentials below</span>
               </div>
+
               <Form.Group className="mb-3">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -94,8 +97,8 @@ const LoginPage = () => {
               <div className="text-center">
                 <NavLink to={identity.forgotPassword}>Forgot password?</NavLink>
               </div>
-            </div>
-          </div>
+            </Card.Body>
+          </Card>
         </Form>
       </PageContent>
     </>

@@ -3,26 +3,46 @@
 // Repository: https://github.com/blacksmoke26/ims-frontend
 
 import {useFormik} from 'formik';
-import {NavLink} from 'react-router';
+import {NavLink, useNavigate} from 'react-router';
 import {Button, Form} from 'react-bootstrap';
+
+// clients
+import ApiClient from '~/clients/ApiClient.ts';
 
 // layout
 import PageContent from '~components/layout/PageContent';
 import NavigationBar from '~components/layout/NavigationBar';
 
 // utils
-import {identity} from '~/endpoints.ts';
+import {identity, main} from '~/endpoints.ts';
 import {validationSchema} from './validation-schema.tsx';
 
+// redux
+import {useAppDispatch} from '~store/hooks';
+import {setLogin} from '~store/slices/auth/reducers.ts';
+
+// types
+import type {LoginPayload, LoginResponse} from '~types/api.types.ts';
+
 const LoginPage = () => {
-  const formik = useFormik({
+  const dispatch = useAppDispatch();
+  const apiClient = new ApiClient();
+  const navigate = useNavigate();
+
+  const formik = useFormik<LoginPayload>({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema,
     async onSubmit(values) {
-      alert(JSON.stringify(values, null, 2));
+      try {
+        const response = await apiClient.post<LoginResponse, LoginPayload>('/auth/login', values);
+        dispatch((setLogin(response)));
+        navigate(main.index);
+      } catch (e) {
+        formik.setErrors({password: ApiClient.errorMessageFromResponse(e)});
+      }
     },
   });
 

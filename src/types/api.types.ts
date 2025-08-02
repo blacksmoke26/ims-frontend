@@ -5,7 +5,9 @@
 export type UserRole = 'admin' | 'user';
 
 export interface LoginPayload {
+  /** The email address */
   email: string;
+  /** Password with alphanumeric chars along with symbols */
   password: string;
 }
 
@@ -22,4 +24,15 @@ export interface LoginResponse {
     email: string;
     role: UserRole;
   };
+}
+
+export interface RegisterPayload {
+  /** The first name of user */
+  firstName: string;
+  /** The last name of user */
+  lastName: string;
+  /** The email address */
+  email: string;
+  /** Password with alphanumeric chars along with symbols */
+  password: string;
 }

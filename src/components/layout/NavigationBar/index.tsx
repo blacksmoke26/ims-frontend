@@ -4,14 +4,19 @@
 
 import {NavLink} from 'react-router';
 
-// utils
-import {auth, identity, main} from '~/endpoints.ts';
+// redux
+import {useAppSelector} from '~store/hooks';
 
-// icons
-import {UserCircleIcon} from '@phosphor-icons/react/UserCircle';
-import {UserCirclePlusIcon} from '@phosphor-icons/react/UserCirclePlus';
+// components
+import NonAuthenticatedElements from './NonAuthenticatedElements.tsx';
+import AuthenticatedElements from './AuthenticatedElements.tsx';
+
+// utils
+import {main} from '~/endpoints.ts';
 
 const NavigationBar = () => {
+  const isAuthenticated = useAppSelector(state => state.auth.authenticated);
+
   return (
     <div className="navbar navbar-dark navbar-static py-2">
       <div className="container-fluid">
@@ -25,22 +30,7 @@ const NavigationBar = () => {
 
         <div className="d-flex justify-content-end align-items-center ms-auto">
           <ul className="navbar-nav flex-row">
-            <li className="nav-item">
-              <NavLink to={identity.register} className="navbar-nav-link navbar-nav-link-icon rounded ms-1">
-                <div className="d-flex align-items-center mx-md-1">
-                  <UserCirclePlusIcon size="18" style={{marginTop: 1}}/>
-                  <span className="d-none d-md-inline-block ms-2">Register</span>
-                </div>
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to={auth.login} className="navbar-nav-link navbar-nav-link-icon rounded ms-1">
-                <div className="d-flex align-items-center mx-md-1">
-                  <UserCircleIcon size="18" style={{marginTop: 1}}/>
-                  <span className="d-none d-md-inline-block ms-2">Login</span>
-                </div>
-              </NavLink>
-            </li>
+            {isAuthenticated ? <AuthenticatedElements/> : <NonAuthenticatedElements/>}
           </ul>
         </div>
       </div>

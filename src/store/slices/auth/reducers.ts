@@ -4,24 +4,36 @@
 
 import {createSlice} from '@reduxjs/toolkit';
 
-// types
-import type {PayloadAction} from '@reduxjs/toolkit';
+// config
+import {AUTH_TOKEN_KEY} from '~/config/constants.ts';
 
 // redux
 import initialState from './initial-state';
 
+// types
+import type {PayloadAction} from '@reduxjs/toolkit';
+import type {LoginResponse} from '~types/api.types.ts';
+
 const configSlice = createSlice({
-  name: 'config',
+  name: 'auth',
   initialState,
   reducers: {
-    setAuthenticated(state, action: PayloadAction<boolean>) {
-      state.authenticated = action.payload;
+    setLogin(state, action: PayloadAction<LoginResponse>) {
+      state.authenticated = true;
+      state.user = action.payload.user;
+      window.localStorage.setItem(AUTH_TOKEN_KEY, action.payload.auth.token);
+    },
+    setLogout(state) {
+      state.authenticated = false;
+      state.user = null;
+      window.localStorage.removeItem(AUTH_TOKEN_KEY);
     },
   },
 });
 
 export const {
-  setAuthenticated,
+  setLogin,
+  setLogout,
 } = configSlice.actions;
 
 export const reducer = configSlice.reducer;

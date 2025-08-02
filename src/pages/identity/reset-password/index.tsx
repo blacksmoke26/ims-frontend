@@ -18,30 +18,32 @@ import NavigationBar from '~components/layout/NavigationBar';
 import InputControl from '~components/form/InputControl';
 
 // icons
-import {ArrowsCounterClockwiseIcon} from '@phosphor-icons/react/ArrowsCounterClockwise';
-import {ArrowCounterClockwiseIcon} from '@phosphor-icons/react/ArrowCounterClockwise';
+import {LockIcon} from '@phosphor-icons/react/Lock';
+import {CheckIcon} from '@phosphor-icons/react/Check';
 
 // utils
 import {auth, identity} from '~/endpoints';
 import {validationSchema} from './validation-schema';
 
 // types
-import type {RequestPasswordResetPayload} from '~types/api.types';
+import type {ResetPasswordPayload} from '~types/api.types';
 
-const ForgotPasswordPage = () => {
+const ResetPasswordPage = () => {
   const navigate = useNavigate();
 
-  const formik = useFormik<RequestPasswordResetPayload>({
+  const formik = useFormik<ResetPasswordPayload>({
     initialValues: {
+      resetCode: '',
       email: '',
+      newPassword: '',
     },
     validationSchema,
     async onSubmit(values) {
       try {
         await ApiClient.getInstance()
-          .post<unknown, RequestPasswordResetPayload>('/identity/password-reset-request', values);
-        toast.success('Successfully sent request, check your email!');
-        navigate(identity.resetPassword);
+          .post<unknown, ResetPasswordPayload>('/identity/password-reset', values);
+        toast.success('Password updated, Please login.');
+        navigate(auth.login);
       } catch (e) {
         formik.setErrors({email: ApiClient.errorMessageFromResponse(e)});
       }
@@ -57,25 +59,36 @@ const ForgotPasswordPage = () => {
             <Card.Body>
               <div className="text-center mb-3">
                 <div className="d-inline-flex bg-primary bg-opacity-10 text-primary lh-1 rounded-pill p-3 mb-3 mt-1">
-                  <ArrowsCounterClockwiseIcon className="ph-2x text-5xl"/>
+                  <LockIcon className="ph-2x text-5xl"/>
                 </div>
-                <h5 className="mb-0">Password recovery</h5>
-                <span className="d-block text-muted">We'll send you instructions in email</span>
+                <h5 className="mb-0">Reset password</h5>
+                <span className="d-block text-muted">All fields are required</span>
               </div>
 
-              <InputControl<RequestPasswordResetPayload>
-                formik={formik} name="email" label="Your email" controlProps={{
+              <InputControl<ResetPasswordPayload>
+                formik={formik} name="resetCode" label="Reset code" controlProps={{
+                placeholder: 'XAE4576', autoComplete: 'off',
+              }}/>
+
+              <InputControl<ResetPasswordPayload>
+                formik={formik} name="email" label="Email address" controlProps={{
                 placeholder: 'john@doe.com', autoComplete: 'off',
+              }}/>
+
+              <InputControl<ResetPasswordPayload>
+                formik={formik} name="newPassword" label="Password" controlProps={{
+                type: 'password',
+                placeholder: '•••••••••••', autoComplete: 'off',
               }}/>
 
               <Form.Group className="mb-3">
                 <Button type="submit" disabled={formik.isSubmitting} variant="primary" className="w-100">
-                  <ArrowCounterClockwiseIcon className="me-1"/>
-                  Reset password</Button>
+                  <CheckIcon className="me-1"/>
+                  Update password</Button>
               </Form.Group>
 
               <div className="text-center">
-                Looking for <NavLink to={auth.login}>Sign in?</NavLink>
+                No code received yet? <NavLink to={identity.forgotPassword}>Send again</NavLink>
               </div>
             </Card.Body>
           </Card>
@@ -85,4 +98,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;

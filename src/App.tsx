@@ -2,33 +2,50 @@
 // Copyright (c) 2025 Junaid Atari, and contributors
 // Repository: https://github.com/blacksmoke26/ims-frontend
 
-import {Provider} from 'react-redux';
+import {ToastContainer} from 'react-toastify';
 import {BrowserRouter, Route, Routes} from 'react-router';
-
-// redux
-import {store} from '~store/store.ts';
 
 // pages
 import HomePage from '~pages/main/home';
 import LoginPage from '~pages/auth/login';
 import RegisterPage from '~pages/identity/register';
 import ForgotPasswordPage from '~pages/identity/forgot-password';
+import ResetPasswordPage from '~pages/identity/reset-password';
+
+// components
+import ProtectedRoute from '~components/generic/ProtectedRoute';
+import PublicRoute from '~components/generic/PublicRoute';
 
 // utils
 import {auth, identity} from '~/endpoints.ts';
 
 const App = () => {
   return (
-    <Provider store={store}>
+    <>
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage/>}/>
-          <Route path={auth.login} element={<LoginPage/>}/>
-          <Route path={identity.register} element={<RegisterPage/>}/>
-          <Route path={identity.forgotPassword} element={<ForgotPasswordPage/>}/>
+          <Route path={auth.login} element={<PublicRoute><LoginPage/></PublicRoute>}/>
+          <Route path={identity.register} element={<PublicRoute><RegisterPage/></PublicRoute>}/>
+          <Route path={identity.forgotPassword} element={<PublicRoute><ForgotPasswordPage/></PublicRoute>}/>
+          <Route path={identity.resetPassword} element={<PublicRoute><ResetPasswordPage/></PublicRoute>}/>
+          <Route path="/user/account" element={<ProtectedRoute><p>Protected</p></ProtectedRoute>}/>
         </Routes>
       </BrowserRouter>
-    </Provider>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+    </>
   );
 };
 

@@ -8,11 +8,16 @@ export const main = {
 
 export const auth = {
   login: '/auth/login',
-  logout: '/auth/logout',
 } as const;
 
 export const identity = {
   register: '/identity/register',
   forgotPassword: '/identity/forgot-password',
   resetPassword: '/identity/reset-password',
+} as const;
+
+export const account = {
+  security: {
+    changePassword: '/account/security/change-password',
+  },
 } as const;

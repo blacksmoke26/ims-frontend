@@ -3,6 +3,7 @@
 // Repository: https://github.com/blacksmoke26/ims-frontend
 
 import {ToastContainer} from 'react-toastify';
+import {PrimeReactProvider} from 'primereact/api';
 import {BrowserRouter, Route, Routes} from 'react-router';
 
 // pages
@@ -11,25 +12,27 @@ import LoginPage from '~pages/auth/login';
 import RegisterPage from '~pages/identity/register';
 import ForgotPasswordPage from '~pages/identity/forgot-password';
 import ResetPasswordPage from '~pages/identity/reset-password';
+import ChangePasswordPage from '~pages/user/account/ChangePassword';
 
 // components
 import ProtectedRoute from '~components/generic/ProtectedRoute';
 import PublicRoute from '~components/generic/PublicRoute';
 
 // utils
-import {auth, identity} from '~/endpoints.ts';
+import Bootstrap_PT from '~/bootstrap';
+import {account, auth, identity} from '~/endpoints';
 
 const App = () => {
   return (
-    <>
+    <PrimeReactProvider value={{pt: Bootstrap_PT}}>
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage/>}/>
           <Route path={auth.login} element={<PublicRoute><LoginPage/></PublicRoute>}/>
           <Route path={identity.register} element={<PublicRoute><RegisterPage/></PublicRoute>}/>
-          <Route path={identity.forgotPassword} element={<PublicRoute><ForgotPasswordPage/></PublicRoute>}/>
-          <Route path={identity.resetPassword} element={<PublicRoute><ResetPasswordPage/></PublicRoute>}/>
-          <Route path="/user/account" element={<ProtectedRoute><p>Protected</p></ProtectedRoute>}/>
+          <Route path={identity.forgotPassword} element={<ForgotPasswordPage/>}/>
+          <Route path={identity.resetPassword} element={<ResetPasswordPage/>}/>
+          <Route path={account.security.changePassword} element={<ProtectedRoute><ChangePasswordPage/></ProtectedRoute>}/>
         </Routes>
       </BrowserRouter>
 
@@ -45,7 +48,7 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-    </>
+    </PrimeReactProvider>
   );
 };
 

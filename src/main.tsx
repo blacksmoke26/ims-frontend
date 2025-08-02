@@ -12,6 +12,7 @@ import {persistor, store} from '~store/store.ts';
 
 // styles
 import '~styles/all.min.css';
+import "primereact/resources/themes/lara-dark-purple/theme.css";
 import '~styles/index.scss';
 
 // components

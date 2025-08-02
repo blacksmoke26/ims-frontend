@@ -3,6 +3,7 @@
 // Repository: https://github.com/blacksmoke26/ims-frontend
 
 import {ToastContainer} from 'react-toastify';
+import {PrimeReactProvider} from 'primereact/api';
 import {BrowserRouter, Route, Routes} from 'react-router';
 
 // pages
@@ -17,11 +18,12 @@ import ProtectedRoute from '~components/generic/ProtectedRoute';
 import PublicRoute from '~components/generic/PublicRoute';
 
 // utils
-import {auth, identity} from '~/endpoints.ts';
+import Bootstrap_PT from '~/bootstrap';
+import {auth, identity} from '~/endpoints';
 
 const App = () => {
   return (
-    <>
+    <PrimeReactProvider value={{pt: Bootstrap_PT}}>
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage/>}/>
@@ -45,7 +47,7 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-    </>
+    </PrimeReactProvider>
   );
 };
 

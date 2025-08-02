@@ -13,6 +13,9 @@ import ApiClient from '~/clients/ApiClient';
 import PageContent from '~components/layout/PageContent';
 import NavigationBar from '~components/layout/NavigationBar';
 
+// ui
+import InputControl from '~components/form/InputControl';
+
 // utils
 import {identity, main} from '~/endpoints';
 import {validationSchema} from './validation-schema';
@@ -64,31 +67,16 @@ const LoginPage = () => {
                 <span className="d-block text-muted">Enter your credentials below</span>
               </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                  name="email"
-                  type="text" placeholder="name@example.com"
-                  isValid={formik.touched.email && !formik.errors.email}
-                  isInvalid={!!formik.errors.email}
-                  onChange={formik.handleChange} value={formik.values.email}/>
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.email}
-                </Form.Control.Feedback>
-              </Form.Group>
+              <InputControl<LoginPayload>
+                formik={formik} name="email" label="Email address" controlProps={{
+                placeholder: 'name@example.com', autoComplete: 'off',
+              }}/>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  name="password"
-                  type="password" placeholder="•••••••••••"
-                  isValid={formik.touched.password && !formik.errors.password}
-                  isInvalid={!!formik.errors.password}
-                  onChange={formik.handleChange} value={formik.values.password}/>
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.password}
-                </Form.Control.Feedback>
-              </Form.Group>
+              <InputControl<LoginPayload>
+                formik={formik} name="password" label="Password" controlProps={{
+                type: 'password',
+                placeholder: '•••••••••••', autoComplete: 'off',
+              }}/>
 
               <Form.Group className="mb-3">
                 <Button type="submit" variant="primary" className="w-100">Sign in</Button>

@@ -26,6 +26,25 @@ export interface LoginResponse {
   };
 }
 
+export interface MePayload {
+  /** The unique identifier */
+  id: number;
+  /** The user's first and last name */
+  fullname: string;
+  /** The user's first name */
+  firstName: string;
+  /** The user's last name */
+  lastName: string;
+  /** The email address */
+  email: string;
+  /** The role name */
+  role: UserRole;
+  /** Account status */
+  status: string;
+  /** Account registered date */
+  createdAt: string | null;
+}
+
 export interface RegisterPayload {
   /** The first name of user */
   firstName: string;
@@ -35,4 +54,25 @@ export interface RegisterPayload {
   email: string;
   /** Password with alphanumeric chars along with symbols */
   password: string;
+}
+
+export interface ChangePasswordPayload {
+  /** The current password */
+  currentPassword: string;
+  /** The new password to update */
+  newPassword: string;
+}
+
+export interface RequestPasswordResetPayload {
+  /** The email address */
+  email: string;
+}
+
+export interface ResetPasswordPayload {
+  /** The reset code */
+  resetCode: string;
+  /** The email address */
+  email: string;
+  /** The new password to update */
+  newPassword: string;
 }

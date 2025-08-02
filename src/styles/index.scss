@@ -9,3 +9,12 @@
 .cursor-pointer {
   cursor: pointer !important;
 }
+
+.sidebar-dark[data-color-theme=dark], [data-color-theme=dark] .sidebar-dark:not([data-color-theme]), html[data-color-theme=dark] .sidebar-dark {
+  color-scheme: dark;
+  --sidebar-bg: #2c2d33;
+}
+
+.w-40 {
+  width: 40% !important;
+}

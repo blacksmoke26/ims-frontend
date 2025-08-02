@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
       try {
         await ApiClient.getInstance()
           .post<unknown, RequestPasswordResetPayload>('/identity/password-reset-request', values);
-        toast.success('Successfully sent request, check your email!');
+        toast.success('Request sent, check your email!');
         navigate(identity.resetPassword);
       } catch (e) {
         formik.setErrors({email: ApiClient.errorMessageFromResponse(e)});

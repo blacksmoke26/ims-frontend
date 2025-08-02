@@ -13,7 +13,7 @@ import {useAppDispatch, useAppSelector} from '~store/hooks.ts';
 import {setLogout} from '~store/slices/auth/reducers.ts';
 
 // utils
-import {auth} from '~/endpoints.ts';
+import {account, auth} from '~/endpoints.ts';
 
 // icons
 import {UserCircleIcon} from '@phosphor-icons/react/UserCircle';
@@ -21,10 +21,9 @@ import {GearIcon} from '@phosphor-icons/react/Gear';
 import {SignOutIcon} from '@phosphor-icons/react/SignOut';
 
 const AuthenticatedElements = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-
+  const dispatch = useAppDispatch();
   const userState = useAppSelector(state => state.auth.user);
 
   const onLogoutHandler = async () => {
@@ -53,7 +52,7 @@ const AuthenticatedElements = () => {
             <NavLink aria-current="time" to="/user/profile" className="dropdown-item">
               <UserCircleIcon className="me-2"/> My profile
             </NavLink>
-            <NavLink to="/user/settings" className="dropdown-item">
+            <NavLink to={account.security.changePassword} className="dropdown-item">
               <GearIcon className="me-2"/> Account settings
             </NavLink>
             <Dropdown.Item href="/" onClick={e => {
